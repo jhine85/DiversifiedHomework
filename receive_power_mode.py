@@ -1,3 +1,11 @@
+from enum import Enum
+
+
+class PowerMode(Enum):
+    OFF = 0
+    ON = 1
+
+
 def parse_message(message):
     # Remove any whitespace or newline characters from the message
     message = message.strip()
@@ -27,8 +35,8 @@ def set_power_mode(message):
     power_mode = parsed_message['power_mode']
 
     if power_mode == '0001':
-        return 'ON'
+        return PowerMode.ON
     elif power_mode == '0004':
-        return 'OFF'
+        return PowerMode.OFF
     else:
         return None
