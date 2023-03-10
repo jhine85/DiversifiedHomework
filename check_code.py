@@ -1,4 +1,6 @@
+# EXAMPLE List [30, 41, 30, 45, 30, 41, 02, 30, 30, 31, 30, 30, 30, 36, 34, 03] returns 77
 hex_list = []
+
 
 def check_code(hex_list):
     # Convert hexadecimal values to binary representation

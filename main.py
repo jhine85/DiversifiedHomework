@@ -1,6 +1,6 @@
-
 import os
 import webbrowser
+
 
 def launch_external_controller():
     # create the HTML file with the form
@@ -50,4 +50,3 @@ def launch_external_controller():
 
 
 launch_external_controller()
-
