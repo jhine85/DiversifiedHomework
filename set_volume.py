@@ -1,5 +1,5 @@
 # Set the volume of a monitor within range 0 to 100
-def set_volume(value):
+def set_volume(volume_value):
     # Start of Message
     stx = "02h"
     stx_ascii = f"{stx}"
@@ -14,7 +14,7 @@ def set_volume(value):
     op_code_ascii = f"{op_code}"
 
     # Set value
-    set_value_ascii = chr(int(value * 255 / 100))
+    set_value_ascii = chr(int(volume_value * 255 / 100))
 
     # End of Message
     etx = "03h"

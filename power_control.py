@@ -1,6 +1,9 @@
 import check_code
 
+
 # Construct a message that will send a power on and power off request
+# On value is 0001
+# Off value is 0004
 def construct_power_control_message(monitor_id: str, power_mode: int) -> bytes:
     # Convert monitor ID to hex byte
     monitor_id_byte = bytes([ord(monitor_id) - 16])
