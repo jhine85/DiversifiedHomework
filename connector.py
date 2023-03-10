@@ -6,6 +6,7 @@ port = 7142
 packet_interval = 1000
 command = 'COMMAND TO SEND'
 
+
 def connect_to_monitor(ip_address, port):
     """
     Connects to a monitor with the given IP address and port number.
