@@ -18,13 +18,18 @@ def connect_to_monitor(ip_address, port):
     Returns:
         socket.socket: The connected socket object.
     """
-    # Create a new TCP/IP socket
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        # Create a new TCP/IP socket
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    # Connect to the monitor
-    client_socket.connect((ip_address, port))
+        # Connect to the monitor
+        client_socket.connect((ip_address, port))
 
-    return client_socket
+        return client_socket
+
+    except socket.error as e:
+        print(f"Error connecting to monitor at {ip_address}:{port}: {e}")
+        return None
 
 
 def disconnect_from_monitor(client_socket):
