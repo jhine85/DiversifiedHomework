@@ -3,10 +3,10 @@ import destination_address
 import power_control
 import set_volume
 
-# Code for main function. User interface c
 from get_power_mode import parse_message
 
 
+# Code for main function. User interface c
 def main():
     global client_socket
     while True:
@@ -15,6 +15,7 @@ def main():
         print("1 - Exit the program")
         choice = input()
 
+        # User input 0, connection to external monitor
         if choice == "0":
             print("Do you want to connect to a remote monitor? Enter 0 for No or 1 for Yes.")
             connect_choice = input()
@@ -27,10 +28,12 @@ def main():
             else:
                 print("Invalid choice. Please enter 0 or 1.")
 
+        # User input 1, closes the program
         elif choice == "1":
             print("Exiting program...")
             break
 
+        # Invalid user input
         else:
             print("Invalid choice. Please enter a number between 0 and 1.")
 
@@ -43,14 +46,16 @@ def main():
 
             choice = input()
 
+            # User input 2, Volume command
             if choice == "2":
                 print("Which monitor would you like to send a volume command 2.")
                 monitor_id = input("Enter a number 1-26 or ALL.")
                 volume_value = input("Please enter a number for volume value.")
-                command = set_volume.set_volume(monitor_id,volume_value)
-                print("Setting monitor " + monitor_id + " to volume " +volume_value)
+                command = set_volume.set_volume(monitor_id, volume_value)
+                print("Setting monitor " + monitor_id + " to volume " + volume_value)
                 connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
 
+            # User input 3, Power On or Power Off Command
             elif choice == "3":
                 print("Select a monitor to send a Power On or Power Off Command.")
                 monitor_id = input("Enter a number 1-26 or ALL.")
@@ -58,8 +63,9 @@ def main():
                 power_mode = input("Type 0001 for Power On. Type 0004 for Power Off")
                 command = power_control.construct_power_control_message(monitor_id, power_mode)
                 print("Sending value " + power_mode + " to monitor " + monitor_id)
-                connector.send_command_to_monitor(client_socket,command,packet_interval=1000)
+                connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
 
+            # User input 4, Displays power state
             elif choice == "4":
                 print("Checking power state...")
                 message = connector.receive_message_from_monitor(client_socket)
@@ -71,17 +77,21 @@ def main():
                 else:
                     print(f"Unknown power mode {power_mode} received.")
 
+            # User input 5, Disconnects from monitor
             elif choice == "5":
                 print("Disconnecting from monitor...")
                 connector.disconnect_from_monitor(client_socket)
                 client_socket = None
                 print("Successfully disconnected from monitor.")
 
+            # User input 6, Closes the program
             elif choice == "6":
                 print("Exiting program...")
                 break
 
+            # User input invalid
             else:
                 print("Invalid choice. Please enter a number between 2 and 6.")
+
 
 main()
