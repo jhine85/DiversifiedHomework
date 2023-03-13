@@ -21,8 +21,8 @@ def construct_power_control_message(monitor_id: str, power_mode: int, destinatio
     message_type = bytes.fromhex('41')
     message_length = bytes.fromhex('30') + bytes.fromhex('43')
     stx = bytes.fromhex('02')
-    power_control_cmd = bytes.fromhex('43 32 30 33 44 36')
-    power_mode_bytes = f'{power_mode:04d}'.encode()
+    op_code_page = bytes.fromhex('43 32 30 33 44 36')
+    op_code = f'{power_mode:04d}'.encode()
     etx = bytes.fromhex('03')
     delimiter = bytes.fromhex('0D')
 
@@ -35,8 +35,8 @@ def construct_power_control_message(monitor_id: str, power_mode: int, destinatio
         message_type,
         message_length,
         stx,
-        power_control_cmd,
-        power_mode_bytes,
+        op_code_page,
+        op_code,
         etx
     ]
 
