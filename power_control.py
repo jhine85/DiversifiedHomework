@@ -5,7 +5,7 @@ import check_code
 # Construct a message that will send a power on and power off request
 # On value is 0001
 # Off value is 0004
-def construct_power_control_message(monitor_id: str, power_mode: int, destination_address_value=None) -> bytes:
+def construct_power_control_message(monitor_id: str, power_mode: int) -> bytes:
     # Get destination address for monitor ID
     destination_address_value = destination_address.get_destination_address(monitor_id)
     if destination_address_value is None:
