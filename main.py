@@ -3,6 +3,7 @@ import destination_address
 import power_control
 import set_volume
 
+# Code for main function. User interface c
 def main():
     global client_socket
     while True:
