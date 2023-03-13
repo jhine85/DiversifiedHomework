@@ -13,6 +13,7 @@ def main():
         print("What do you want to do? Enter the corresponding number:")
         print("0 - Connection for external controller")
         print("1 - Exit the program")
+        print("2 - Other options")
         choice = input()
 
         # User input 0, connection to external monitor
@@ -23,7 +24,6 @@ def main():
                 print("Okay, returning to main menu.")
             elif connect_choice == "1":
                 connector.connect_to_monitor(ip_address="192.168.1.10", port=7142)
-                print("Successfully connected to monitor!")
                 client_socket = connector.connect_to_monitor(ip_address="192.168.1.10", port=7142)
             else:
                 print("Invalid choice. Please enter 0 or 1.")
@@ -33,9 +33,8 @@ def main():
             print("Exiting program...")
             break
 
-        # Invalid user input
+        # Other User input
         else:
-            print("Invalid choice. Please enter a number between 0 and 1.")
 
             print("What do you want to do? Enter the corresponding number:")
             print("2 - Set the volume of a monitor")
