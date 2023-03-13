@@ -4,6 +4,9 @@ import power_control
 import set_volume
 
 # Code for main function. User interface c
+from get_power_mode import parse_message
+
+
 def main():
     global client_socket
     while True:
@@ -58,10 +61,21 @@ def main():
                 connector.send_command_to_monitor(client_socket,command,packet_interval=1000)
 
             elif choice == "4":
-                # code to check the power state
+                print("Checking power state...")
+                message = connector.receive_message_from_monitor(client_socket)
+                monitor_id, power_mode = parse_message(message)
+                if power_mode == "0001":
+                    print(f"Monitor {monitor_id} is on.")
+                elif power_mode == "0004":
+                    print(f"Monitor {monitor_id} is off.")
+                else:
+                    print(f"Unknown power mode {power_mode} received.")
 
             elif choice == "5":
-                # code to disconnect from the monitor
+                print("Disconnecting from monitor...")
+                connector.disconnect_from_monitor(client_socket)
+                client_socket = None
+                print("Successfully disconnected from monitor.")
 
             elif choice == "6":
                 print("Exiting program...")
