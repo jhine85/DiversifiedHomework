@@ -1,6 +1,5 @@
 import destination_address
 import check_code
-import main
 
 
 # Set the volume of a monitor within range 0 to 100
@@ -21,7 +20,7 @@ def set_volume(monitor_id: str, volume_value: int,) -> bytes:
     message_length = bytes.fromhex('30') + bytes.fromhex('43')
     stx = bytes.fromhex('02')
     op_code_page = bytes.fromhex('00')
-    op_code = f'{volume_value:04d}'.encode()
+    op_code = f'{volume_value:62}'.encode()
     etx = bytes.fromhex('03')
     delimiter = bytes.fromhex('03')
 
