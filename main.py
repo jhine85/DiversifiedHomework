@@ -23,8 +23,8 @@ def main():
             if connect_choice == "0":
                 print("Okay, returning to main menu.")
             elif connect_choice == "1":
-                connector.connect_to_monitor(ip_address="192.168.1.10", port=7142)
-                client_socket = connector.connect_to_monitor(ip_address="192.168.1.10", port=7142)
+                connector.connect_to_monitor(ip_address="192.168.0.10", port=7142)
+                client_socket = connector.connect_to_monitor(ip_address="192.168.0.10", port=7142)
             else:
                 print("Invalid choice. Please enter 0 or 1.")
 
@@ -90,7 +90,7 @@ def main():
 
             # User input invalid
             else:
-                print("Invalid choice. Please enter a number between 2 and 6.")
+                print("Invalid choice. Please enter a number between 3 and 7.")
 
 
 main()
