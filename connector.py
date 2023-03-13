@@ -64,9 +64,36 @@ def send_command_to_monitor(client_socket, command, packet_interval):
         client_socket.send(command.encode())
 
         # Receive a response from the monitor
-        response = client_socket.recv(8)
+        response = client_socket.recv(1024)
         response_data = response.decode()
         print('Response received:', response_data)
 
         # Wait for the specified interval before sending the next command
         time.sleep(packet_interval / 1000)
+
+
+def receive_message_from_monitor(client_socket):
+    """
+    Receives a message from the monitor and returns it.
+
+    Parameters:
+        client_socket (socket.socket): The connected socket object.
+
+    Returns:
+        str: The message received from the monitor.
+    """
+    # Set the timeout for receiving a message
+    client_socket.settimeout(5)
+
+    # Receive the message from the monitor
+    try:
+        message = client_socket.recv(1024).decode()
+        return message
+
+    except socket.timeout:
+        print("Timed out waiting for response from monitor")
+        return None
+
+    except socket.error as e:
+        print(f"Error receiving message from monitor: {e}")
+        return None

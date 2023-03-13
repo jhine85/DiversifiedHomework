@@ -45,26 +45,36 @@ def main():
 
             choice = input()
 
-            # User input 2, Volume command
+            # User input 3, Volume command
             if choice == "3":
                 print("Which monitor would you like to send a volume command 2.")
                 monitor_id = input("Enter a number 1-26 or ALL.")
                 volume_value = input("Please enter a number for volume value.")
                 command = set_volume.set_volume(monitor_id, volume_value)
-                print("Setting monitor " + monitor_id + " to volume " + volume_value)
-                connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
+                vlm_command = input("Is the command correct? 1 for Yes. 2 for No")
+                if pwr_command == "1":
+                    print("Sending value " + power_mode + " to monitor " + monitor_id)
+                    connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
+                else:
+                    print("Command not sent.")
 
-            # User input 3, Power On or Power Off Command
+
+            # User input 4, Power On or Power Off Command
             elif choice == "4":
                 print("Select a monitor to send a Power On or Power Off Command.")
                 monitor_id = input("Enter a number 1-26 or ALL.")
                 print("Would you like to Power On or Power Off?")
                 power_mode = input("Type 0001 for Power On. Type 0004 for Power Off")
                 command = power_control.construct_power_control_message(monitor_id, power_mode)
-                print("Sending value " + power_mode + " to monitor " + monitor_id)
-                connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
+                print(f"Command to be sent to monitor: {command}")
+                pwr_command = input("Is the command correct? 1 for Yes. 2 for No")
+                if pwr_command == "1":
+                    print("Sending value " + power_mode + " to monitor " + monitor_id)
+                    connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
+                else:
+                    print("Command not sent.")
 
-            # User input 4, Displays power state
+            # User input 5, Displays power state
             elif choice == "5":
                 print("Checking power state...")
                 message = connector.receive_message_from_monitor(client_socket)
@@ -76,14 +86,14 @@ def main():
                 else:
                     print(f"Unknown power mode {power_mode} received.")
 
-            # User input 5, Disconnects from monitor
+            # User input 6, Disconnects from monitor
             elif choice == "6":
                 print("Disconnecting from monitor...")
                 connector.disconnect_from_monitor(client_socket)
                 client_socket = None
                 print("Successfully disconnected from monitor.")
 
-            # User input 6, Closes the program
+            # User input 7, Closes the program
             elif choice == "7":
                 print("Exiting program...")
                 break
