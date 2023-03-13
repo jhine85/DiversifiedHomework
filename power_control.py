@@ -44,7 +44,7 @@ def construct_power_control_message(monitor_id: str, power_mode: int, destinatio
     message = b''.join(message_components)
 
     # Calculate the check code
-    power_message_check_code = check_code.check_code(message)
+    power_message_check_code = check_code.check_code(message_components)
 
     # Insert the check code into the message list
     message_components.append(bytes.fromhex(power_message_check_code))
