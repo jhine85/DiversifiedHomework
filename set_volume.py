@@ -42,10 +42,10 @@ def set_volume(monitor_id: str, volume_mode: int, destination_address_value=None
     message = b''.join(message_components)
 
     # Calculate the check code
-    power_message_check_code = check_code.check_code(message_components)
+    volume_message_check_code = check_code.check_code(message_components)
 
     # Insert the check code into the message list
-    message_components.append(bytes.fromhex(power_message_check_code))
+    message_components.append(bytes.fromhex(volume_message_check_code))
 
     # Add the delimiter to the message list
     message_components.append(delimiter)
