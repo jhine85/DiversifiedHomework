@@ -19,7 +19,7 @@ def construct_power_control_message(monitor_id: str, power_mode: int) -> bytes:
     power_mode_bytes = f'{power_mode:04d}'.encode()
     etx = bytes.fromhex('03')
     power_message_check_code = bytes.fromhex(check_code())  # assuming check_code() returns a string of hex digits
-    delimiter = bytes.fromhex('0D')  # ASCII carriage return
+    delimiter = bytes.fromhex('0D')
 
     # Construct the full message
     message = soh + reserved + monitor_id_byte + message_sender + message_type + message_length + stx + power_control_cmd + power_mode_bytes + etx + power_message_check_code + delimiter
