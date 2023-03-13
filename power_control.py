@@ -1,4 +1,17 @@
-import check_code
+# check_code function
+def check_code():
+    # Convert hexadecimal values to binary representation
+    bin_list = [bin(int(val, 16))[2:].zfill(8) for val in hex_list]
+
+    # Calculate XOR of binary values
+    result = int(bin_list[0], 2)
+    for i in range(1, len(bin_list)):
+        result ^= int(bin_list[i], 2)
+
+    # Convert result to hexadecimal representation
+    hex_result = hex(result)[2:].zfill(2)
+
+    return hex_result
 
 
 # Construct a message that will send a power on and power off request
@@ -18,10 +31,35 @@ def construct_power_control_message(monitor_id: str, power_mode: int) -> bytes:
     power_control_cmd = bytes.fromhex('43 32 30 33 44 36')
     power_mode_bytes = f'{power_mode:04d}'.encode()
     etx = bytes.fromhex('03')
-    power_message_check_code = bytes.fromhex(check_code())  # assuming check_code() returns a string of hex digits
     delimiter = bytes.fromhex('0D')
 
-    # Construct the full message
-    message = soh + reserved + monitor_id_byte + message_sender + message_type + message_length + stx + power_control_cmd + power_mode_bytes + etx + power_message_check_code + delimiter
+    # Create a list of message components
+    message_components = [
+        soh,
+        reserved,
+        monitor_id_byte,
+        message_sender,
+        message_type,
+        message_length,
+        stx,
+        power_control_cmd,
+        power_mode_bytes,
+        etx
+    ]
+
+    # Convert the list of components to a byte string
+    message = b''.join(message_components)
+
+    # Calculate the check code
+    power_message_check_code = check_code(message)
+
+    # Insert the check code into the message list
+    message_components.append(bytes.fromhex(power_message_check_code))
+
+    # Add the delimiter to the message list
+    message_components.append(delimiter)
+
+    # Convert the message list to a byte string
+    message = b''.join(message_components)
 
     return message
