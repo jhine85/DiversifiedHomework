@@ -5,7 +5,7 @@ import check_code
 # Set the volume of a monitor within range 0 to 100
 def set_volume(monitor_id: str, volume_mode: int, destination_address_value=None) -> bytes:
     # Get destination address for monitor ID
-    destination_address_value = destination_address_value.get_destination_address(monitor_id)
+    destination_address_value = destination_address.get_destination_address(monitor_id)
     if destination_address_value is None:
         raise ValueError('Invalid monitor ID')
 
