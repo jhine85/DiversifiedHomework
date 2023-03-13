@@ -37,16 +37,16 @@ def main():
         else:
 
             print("What do you want to do? Enter the corresponding number:")
-            print("2 - Set the volume of a monitor")
-            print("3 - Send a Power On or Power Off command")
-            print("4 - Check Power State")
-            print("5 - Disconnect")
-            print("6 - Exit the program")
+            print("3 - Set the volume of a monitor")
+            print("4 - Send a Power On or Power Off command")
+            print("5 - Check Power State")
+            print("6 - Disconnect")
+            print("7 - Exit the program")
 
             choice = input()
 
             # User input 2, Volume command
-            if choice == "2":
+            if choice == "3":
                 print("Which monitor would you like to send a volume command 2.")
                 monitor_id = input("Enter a number 1-26 or ALL.")
                 volume_value = input("Please enter a number for volume value.")
@@ -55,7 +55,7 @@ def main():
                 connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
 
             # User input 3, Power On or Power Off Command
-            elif choice == "3":
+            elif choice == "4":
                 print("Select a monitor to send a Power On or Power Off Command.")
                 monitor_id = input("Enter a number 1-26 or ALL.")
                 print("Would you like to Power On or Power Off?")
@@ -65,7 +65,7 @@ def main():
                 connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
 
             # User input 4, Displays power state
-            elif choice == "4":
+            elif choice == "5":
                 print("Checking power state...")
                 message = connector.receive_message_from_monitor(client_socket)
                 monitor_id, power_mode = parse_message(message)
@@ -77,14 +77,14 @@ def main():
                     print(f"Unknown power mode {power_mode} received.")
 
             # User input 5, Disconnects from monitor
-            elif choice == "5":
+            elif choice == "6":
                 print("Disconnecting from monitor...")
                 connector.disconnect_from_monitor(client_socket)
                 client_socket = None
                 print("Successfully disconnected from monitor.")
 
             # User input 6, Closes the program
-            elif choice == "6":
+            elif choice == "7":
                 print("Exiting program...")
                 break
 
