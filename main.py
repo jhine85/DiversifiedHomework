@@ -1,52 +1,14 @@
-import os
-import webbrowser
+# Main function for External Controller Application
 
 
-def launch_external_controller():
-    # create the HTML file with the form
-    with open("external_controller.html", "w") as f:
-        f.write("""<!DOCTYPE html>
-<html>
-<head>
-	<title>External Controller</title>
-</head>
-<body>
-	<h1>External Controller</h1>
-	<p>Please connect to the monitors.</p>
-	<button type="button">Connect</button>
-	<p>Please select a monitor.</p>
-	<input type="radio" id="option1" name="monitor" value="1">
-	<label for="option1">1</label><br>
-	<input type="radio" id="option2" name="monitor" value="2">
-	<label for="option2">2</label><br>
-	<input type="radio" id="option3" name="monitor" value="3">
-	<label for="option3">3</label><br>
-	<br>
-	<form action="" method="post">
-		<button type="button">Power On</button>
-		<button type="button">Power Off</button>
-		<br>
-		<label for="power-status">Power Command Sent:</label>
-		<input type="text" id="power-status" name="power-status">
-		<br>
-		<br>
-		<label for="volume">Volume Control:</label>
-		<input type="range" id="volume" name="volume" min="0" max="100" oninput="volumeOutput.value = volume.value">
-		<span id="volumeOutput">0</span>
-		<br>
-		<button type="submit">Set Volume</button>
-		<br>
-	</form>
-	<p>Current Power State:</p>
-	<input type="text" id="current-state" name="current-state">
-	<script>
-		// set the initial value of the volume output
-		document.getElementById("volumeOutput").innerHTML = document.getElementById("volume").value;
-	</script>
-</body>
-</html>""")
-    # open the HTML file in the default web browser
-    webbrowser.open(os.path.abspath("external_controller.html"))
+# User interface to allow user to send commands
+def user_interface():
+    user_option = input('\nPlease type a number corresponding to the desired option and press ENTER:\n'
+                        '1 - Connect to a monitor\n'
+                        '2 - Set the volume of a monitor\n'
+                        '3 - Send a Power On or Power Off command\n'
+                        '4 - Exit the program\n')
 
+    if user_option == '1':
+        user_input_monitor_id = input('Please type the number of the monitor you would like to connect to and press ENTER.')
 
-launch_external_controller()
