@@ -1,25 +1,18 @@
-# check_code function
-def check_code():
-    # Convert hexadecimal values to binary representation
-    bin_list = [bin(int(val, 16))[2:].zfill(8) for val in hex_list]
-
-    # Calculate XOR of binary values
-    result = int(bin_list[0], 2)
-    for i in range(1, len(bin_list)):
-        result ^= int(bin_list[i], 2)
-
-    # Convert result to hexadecimal representation
-    hex_result = hex(result)[2:].zfill(2)
-
-    return hex_result
+import destination_address
+import check_code
 
 
 # Construct a message that will send a power on and power off request
 # On value is 0001
 # Off value is 0004
-def construct_power_control_message(monitor_id: str, power_mode: int) -> bytes:
-    # Convert monitor ID to hex byte
-    monitor_id_byte = bytes([ord(monitor_id) - 16])
+def construct_power_control_message(monitor_id: str, power_mode: int, destination_address_value=None) -> bytes:
+    # Get destination address for monitor ID
+    destination_address_value = destination_address_value.get_destination_address(monitor_id)
+    if destination_address_value is None:
+        raise ValueError('Invalid monitor ID')
+
+    # Convert destination address to bytes
+    destination_address_byte = bytes([destination_address_value])
 
     # Define the message components
     soh = bytes.fromhex('01')
@@ -37,7 +30,7 @@ def construct_power_control_message(monitor_id: str, power_mode: int) -> bytes:
     message_components = [
         soh,
         reserved,
-        monitor_id_byte,
+        destination_address_byte,
         message_sender,
         message_type,
         message_length,
@@ -51,7 +44,7 @@ def construct_power_control_message(monitor_id: str, power_mode: int) -> bytes:
     message = b''.join(message_components)
 
     # Calculate the check code
-    power_message_check_code = check_code(message)
+    power_message_check_code = check_code.check_code(message)
 
     # Insert the check code into the message list
     message_components.append(bytes.fromhex(power_message_check_code))
