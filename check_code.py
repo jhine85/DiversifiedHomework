@@ -1,10 +1,9 @@
 # EXAMPLE List [30, 41, 30, 45, 30, 41, 02, 30, 30, 31, 30, 30, 30, 36, 34, 03] returns 77
-hex_list = []
 
 
-def check_code(hex_list):
+def check_code(message_components):
     # Convert hexadecimal values to binary representation
-    bin_list = [bin(int(val, 16))[2:].zfill(8) for val in hex_list]
+    bin_list = [bin(int(val, 16))[2:].zfill(8) for val in message_components]
 
     # Calculate XOR of binary values
     result = int(bin_list[0], 2)
