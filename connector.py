@@ -27,7 +27,6 @@ def connect_to_monitor(ip_address, port):
 
         return client_socket
 
-
     except socket.error as e:
         print(f"Error connecting to monitor at {ip_address}:{port}: {e}")
         return None

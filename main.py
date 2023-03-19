@@ -1,14 +1,12 @@
 import connector
-import destination_address
 import power_control
 import set_volume
 
 from get_power_mode import parse_message
 
 
-# Code for main function. User interface c
+# Code for main function. User interface
 def main():
-    global client_socket
     while True:
         print("What do you want to do? Enter the corresponding number:")
         print("0 - Connection for external controller")
@@ -47,17 +45,16 @@ def main():
 
             # User input 3, Volume command
             if choice == "3":
-                print("Which monitor would you like to send a volume command 2.")
+                print("Which monitor would you like to send a volume command to.")
                 monitor_id = input("Enter a number 1-26 or ALL.")
                 volume_value = input("Please enter a number for volume value.")
-                command = set_volume.set_volume(monitor_id, volume_value)
+                command = set_volume.set_volume(monitor_id, int(volume_value))
                 vlm_command = input("Is the command correct? 1 for Yes. 2 for No")
-                if pwr_command == "1":
-                    print("Sending value " + power_mode + " to monitor " + monitor_id)
-                    connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
+                if vlm_command == "1":
+                    print("Sending value " + volume_value + " to monitor " + monitor_id)
+                    connector.send_command_to_monitor(client_socket, str(command), packet_interval=1000)
                 else:
                     print("Command not sent.")
-
 
             # User input 4, Power On or Power Off Command
             elif choice == "4":
@@ -65,12 +62,12 @@ def main():
                 monitor_id = input("Enter a number 1-26 or ALL.")
                 print("Would you like to Power On or Power Off?")
                 power_mode = input("Type 0001 for Power On. Type 0004 for Power Off")
-                command = power_control.construct_power_control_message(monitor_id, power_mode)
+                command = power_control.construct_power_control_message(monitor_id, int(power_mode))
                 print(f"Command to be sent to monitor: {command}")
                 pwr_command = input("Is the command correct? 1 for Yes. 2 for No")
                 if pwr_command == "1":
                     print("Sending value " + power_mode + " to monitor " + monitor_id)
-                    connector.send_command_to_monitor(client_socket, command, packet_interval=1000)
+                    connector.send_command_to_monitor(client_socket, str(command), packet_interval=1000)
                 else:
                     print("Command not sent.")
 
