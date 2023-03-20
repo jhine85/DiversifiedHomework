@@ -1,6 +1,7 @@
 import connector
 import power_control
 import set_volume
+import get_power_mode
 
 from get_power_mode import parse_message
 
@@ -73,7 +74,9 @@ def main():
 
             # User input 5, Displays power state
             elif choice == "5":
+                monitor_id = input("Select a monitor")
                 print("Checking power state...")
+                get_power_mode.get_power_setting(monitor_id)
                 message = connector.receive_message_from_monitor(client_socket)
                 monitor_id, power_mode = parse_message(message)
                 if power_mode == "0001":
