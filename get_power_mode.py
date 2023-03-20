@@ -1,9 +1,64 @@
 from enum import Enum
+import check_code
+import destination_address
 
 
 class PowerMode(Enum):
     OFF = 0
     ON = 1
+
+
+def get_power_status_message(monitor_id: str, power_mode: int) -> bytes:
+    # Get destination address for monitor ID
+    destination_address_value = destination_address.get_destination_address(monitor_id)
+    if destination_address_value is None:
+        raise ValueError('Invalid monitor ID')
+
+    # Convert destination address to bytes
+    destination_address_byte = bytes([destination_address_value])
+
+    # Define the message components
+    soh = bytes.fromhex('01')
+    reserved = bytes.fromhex('30')
+    message_sender = bytes.fromhex('30')
+    message_type = bytes.fromhex('44')
+    message_length = bytes.fromhex('30') + bytes.fromhex('43')
+    stx = bytes.fromhex('02')
+    op_code_page = bytes.fromhex('43 32 30 33 44 36')
+    op_code = f'{power_mode:04d}'.encode()
+    etx = bytes.fromhex('03')
+    delimiter = bytes.fromhex('0D')
+
+    # Create a list of message components
+    message_components = [
+        soh,
+        reserved,
+        destination_address_byte,
+        message_sender,
+        message_type,
+        message_length,
+        stx,
+        op_code_page,
+        op_code,
+        etx
+    ]
+
+    # Convert the list of components to a byte string
+    message = b''.join(message_components)
+
+    # Calculate the check code
+    power_message_check_code = check_code.check_code(message_components)
+
+    # Insert the check code into the message list
+    message_components.append(bytes.fromhex(power_message_check_code))
+
+    # Add the delimiter to the message list
+    message_components.append(delimiter)
+
+    # Convert the message list to a byte string
+    message = b''.join(message_components)
+
+    return message
 
 
 def parse_message(message):
